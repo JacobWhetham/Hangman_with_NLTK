@@ -7,10 +7,9 @@
 # Imports
 import nltk # Allows use of the Natural Language Toolkit
 
-nltk.download('words')                      # Downloads common English words to use with the NLTK
 nltk.download('wordnet')                    # Downloads WordNet data for working with the words.
 
-from nltk.corpus import words, wordnet      # Allows use of Words and WordNet functionality.
+from nltk.corpus import wordnet      # Allows use of Words and WordNet functionality.
 from random import sample                   # Allows use of taking a random sample from an iterable.
 
 # This class allows creation of an instance of the Hangman game.
@@ -20,7 +19,6 @@ class hangman:
     guesses = []                    # Holds the user's guesses.
     lives = 6                       # Holds the user's remaining lives.
     game_should_run = True          # Holds whether the game should end.
-
 
     # The default constructor.
     def __init__(self):
@@ -38,7 +36,7 @@ class hangman:
         difficulty = self.determineDifficulty() # Gathers the difficulty setting from user input.
 
         # Gathers only words applicable to the difficulty rating based on string length.
-        list_of_words = [word for word in words.words() if len(word) >= difficulty * 2 and len(word) <= difficulty * 4]
+        list_of_words = [word for word in wordnet.words() if len(word) >= difficulty * 2 and len(word) <= difficulty * 4 and not word[0].isupper() and not "_" in word]
         self.word = sample(list_of_words, 1) # Sets the word to be a single random sample from the applicable words.
 
         self.updateGameDisplay() # Updates the game's display by drawing the hangman's stand.
@@ -55,15 +53,8 @@ class hangman:
     # Ends the game.
     def finishGame(self):
         syns = wordnet.synsets(self.word[0]) # Determines the synonym sets for the word.
-
-        # If there is at least one synonym set for the word,
-        if (len(syns) > 0):
-            definition = syns[0].definition() # Captures the definition of the word.
-            print(f"The word was {self.word[0]}. It means: {definition}") # Outputs the word and its definition.
-
-        # Otherwise (the word has no synonym sets - the word will not be found in the dictionary),
-        else:
-            print(f"The word was {self.word[0]}. ... I don't know what it means.") # Outputs the word and uncertain definition.
+        definition = syns[0].definition() # Captures the definition of the word.
+        print(f"The word was {self.word[0]}. It means: {definition}") # Outputs the word and its definition.
 
 
     def determineDifficulty(self) -> int:

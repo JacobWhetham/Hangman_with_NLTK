@@ -10,4 +10,4 @@ Hangman is a simple game often played in grade school. One person selects a word
 * Python 3.8.
 * nltk.
 * random.
-* The NLTK library will automatically download the respective "Word" and "WordNet" files used in the program.
+* The NLTK library will automatically download the respective "WordNet" files used in the program.
